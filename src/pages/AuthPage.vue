@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page padding>
         <div class="row window-height">
-          <div class="col column content-center bgWhite">
+          <div class="col column content-center">
             <div class="q-mt-xl">
               <q-img src="src/assets/Sowell-logo.svg" style="width: 210px" />
             </div>
@@ -79,7 +79,7 @@
             </div>
           </div>
           <div
-            class="column col justify-center content-center mobile"
+            class="column col justify-center content-center gt-sm"
             :style="'background: #eef8fd'"
           >
             <q-img

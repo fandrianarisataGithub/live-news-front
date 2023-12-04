@@ -1,10 +1,27 @@
 <template>
   <q-page padding>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio qui
-    perspiciatis, porro tenetur repellat earum. Ad earum obcaecati a molestiae
-    quam, vero reiciendis repudiandae quaerat fuga nulla dignissimos fugit
-    corrupti!
+    <template v-if="isLoading"> Loading... </template>
+    <template v-else>
+      <q-list class="column">
+        <q-item v-for="post in posts" :key="post.id">
+          <post-card :post="post"></post-card>
+        </q-item>
+      </q-list>
+    </template>
   </q-page>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { usePostStore } from 'src/stores/posts';
+import PostCard from 'src/components/PostCard.vue';
+
+const postStore = usePostStore();
+const { isLoading, posts } = storeToRefs(postStore);
+const { loadPosts } = postStore;
+
+onMounted(() => {
+  loadPosts();
+});
+</script>
