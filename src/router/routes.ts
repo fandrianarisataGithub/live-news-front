@@ -1,10 +1,29 @@
+import { SessionStorage } from 'quasar';
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      {
+        name: 'index',
+        path: '',
+        component: () => import('pages/IndexPage.vue'),
+        meta: { title: 'Index' },
+      },
+    ],
+    beforeEnter: (to, from, next) => {
+      if (!SessionStorage.has('loggedUser') && to.name !== 'login') {
+        return next({ name: 'login' });
+      }
+      return next();
+    },
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: () => import('pages/AuthPage.vue'),
   },
 
   // Always leave this as last one,
