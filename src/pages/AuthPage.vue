@@ -176,6 +176,6 @@ const passwordHint = computed(() => {
 const handleSubmit = () => {
   if (isSubmitBtnDisabled.value) return;
   SessionStorage.set('loggedUser', username.value);
-  $router.push({ name: 'index' });
+  $router.push({ name: 'synchronization' });
 };
 </script>
