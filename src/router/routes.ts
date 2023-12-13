@@ -25,6 +25,11 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     component: () => import('pages/AuthPage.vue'),
   },
+  {
+    name: 'synchronization',
+    path: '/init-synchronization',
+    component: () => import('pages/InitSynchronization.vue'),
+  },
 
   // Always leave this as last one,
   // but you can also remove it
