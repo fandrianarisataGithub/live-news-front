@@ -7,6 +7,7 @@
           <post-card :post="post"></post-card>
         </q-item>
       </q-list>
+      <online-check></online-check>
     </template>
   </q-page>
 </template>
@@ -16,6 +17,7 @@ import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePostStore } from 'src/stores/posts';
 import PostCard from 'src/components/PostCard.vue';
+import OnlineCheck from 'src/components/OnlineCheck.vue';
 
 const postStore = usePostStore();
 const { isLoading, posts } = storeToRefs(postStore);
