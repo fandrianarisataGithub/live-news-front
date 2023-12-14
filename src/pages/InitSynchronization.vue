@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <OnlineCheck></OnlineCheck>
   </div>
 </template>
 <script>
@@ -51,10 +52,11 @@ import SwToolbar from 'src/components/sw-toolbar.vue';
 import { useSyncState } from './../stores/sync';
 import { SessionStorage } from 'quasar';
 import { useRouter } from 'vue-router';
+import OnlineCheck from 'src/components/OnlineCheck.vue';
 
 export default defineComponent({
   name: 'initSynchronization',
-  components: { SwToolbar },
+  components: { SwToolbar, OnlineCheck },
 
   setup() {
     const syncState = useSyncState();
