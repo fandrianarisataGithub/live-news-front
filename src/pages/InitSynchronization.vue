@@ -1,14 +1,13 @@
 <template>
-  <div class="row justify-center">
+  <div class="q-pa-sm row justify-center">
     <div>
       <div class="col-8 col-sm-6 col-xs-11 q-mt-lg q-mb-lg">
         <div class="row items-center justify-between">
-          <sw-toolbar
-            cyname="header"
-            :username="currentUser"
-            :imgSrc="currentUser.img"
-            @openSetting="openSetting"
-          />
+          <sw-toolbar cyname="header" :username="currentUser">
+            <template #online>
+              <online-check class="q-ml-sm"></online-check>
+            </template>
+          </sw-toolbar>
         </div>
       </div>
       <div class="column justify-center">
@@ -43,46 +42,40 @@
         </div>
       </div>
     </div>
-    <OnlineCheck></OnlineCheck>
   </div>
 </template>
-<script>
-import { defineComponent, computed, onMounted, watch } from 'vue';
-import SwToolbar from 'src/components/sw-toolbar.vue';
-import { useSyncState } from './../stores/sync';
+<script setup lang="ts">
+import { computed, onMounted, watch } from 'vue';
+import SwToolbar from 'src/components/SWToolbar.vue';
+import { useSyncState } from 'src/stores/sync';
 import { SessionStorage } from 'quasar';
 import { useRouter } from 'vue-router';
 import OnlineCheck from 'src/components/OnlineCheck.vue';
 
-export default defineComponent({
-  name: 'initSynchronization',
-  components: { SwToolbar, OnlineCheck },
+const syncState = useSyncState();
+const $router = useRouter();
 
-  setup() {
-    const syncState = useSyncState();
-    const $router = useRouter();
+const currentUser = computed(
+  () => SessionStorage.getItem('loggedUser') as string
+);
+const itemsLoadingProgression = computed(
+  () => syncState.getItemsLoadingProgression
+);
+const itemsLoadingProgressionValue = computed(
+  () => syncState.getItemsLoadingProgressionValue
+);
 
-    const currentUser = computed(() => SessionStorage.getItem('loggedUser'));
-    const itemsLoadingProgression = computed(
-      () => syncState.getItemsLoadingProgression
-    );
-    const itemsLoadingProgressionValue = computed(
-      () => syncState.getItemsLoadingProgressionValue
-    );
+const cancelSync = () => {
+  // TODO: implement
+};
 
-    watch(itemsLoadingProgression, () => {
-      if (itemsLoadingProgression.value == 100) {
-        void $router.push('/');
-      }
-    });
-    onMounted(() => {
-      syncState.simulateProgression();
-    });
-    return {
-      currentUser,
-      itemsLoadingProgression,
-      itemsLoadingProgressionValue,
-    };
-  },
+watch(itemsLoadingProgression, async () => {
+  if (itemsLoadingProgression.value == 100) {
+    await $router.push('/');
+    syncState.setLoadingProgression(0);
+  }
+});
+onMounted(() => {
+  syncState.simulateProgression();
 });
 </script>

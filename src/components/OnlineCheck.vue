@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSyncState } from './../stores/sync';
+import { useSyncState } from 'src/stores/sync';
 const { isOnline } = useSyncState();
 </script>
 
@@ -13,10 +13,6 @@ const { isOnline } = useSyncState();
   width: 16px;
   border-radius: 8px;
   margin-right: 8px;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin: 32px;
   &.green {
     background-color: green;
   }

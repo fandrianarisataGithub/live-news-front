@@ -15,6 +15,10 @@ export const useSyncState = defineStore('sync', () => {
     return itemsProgression.value / 100;
   });
 
+  const setLoadingProgression = (value: number) => {
+    itemsProgression.value = value;
+  };
+
   const simulateProgression = () => {
     const fakeArray = [10, 25, 50, 75, 100];
     let index = 0;
@@ -31,6 +35,7 @@ export const useSyncState = defineStore('sync', () => {
     isOnline,
     getItemsLoadingProgression,
     getItemsLoadingProgressionValue,
+    setLoadingProgression,
     simulateProgression,
   };
 });

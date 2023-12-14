@@ -5,6 +5,7 @@
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
         <div>Welcome, {{ username }}</div>
+        <online-check class="q-ml-sm"></online-check>
         <q-btn
           class="q-ml-md"
           flat
@@ -26,6 +27,7 @@ import { ionLogOutOutline } from '@quasar/extras/ionicons-v5';
 import { SessionStorage } from 'quasar';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import OnlineCheck from 'src/components/OnlineCheck.vue';
 const $route = useRoute();
 const $router = useRouter();
 const title = computed(() => {
