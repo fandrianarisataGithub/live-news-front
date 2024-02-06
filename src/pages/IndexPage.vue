@@ -12,16 +12,36 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
-import { usePostStore } from 'src/stores/posts';
-import PostCard from 'src/components/PostCard.vue';
+import {
+  onMounted,
+  ref,
+} from 'vue';
 
+import { storeToRefs } from 'pinia';
+import PostCard from 'src/components/PostCard.vue';
+import { usePostStore } from 'src/stores/posts';
+import { useUserStore } from 'src/stores/users';
+
+const isLoading = ref(false);
+const userStore = useUserStore();
 const postStore = usePostStore();
-const { isLoading, posts } = storeToRefs(postStore);
+const { posts } = storeToRefs(postStore);
 const { loadPosts } = postStore;
 
+const loadPostAndUsers = async () => {
+  try {
+    isLoading.value = true;
+    await userStore.loadUsers();
+    userStore.preloadAvatars();
+    await postStore.loadPosts();
+  } catch (error) {
+    console.error('🚀 error when showing all posts and users in indexPage :', error);
+  }finally{
+    isLoading.value = false;
+  }
+}
+
 onMounted(() => {
-  loadPosts();
+  loadPostAndUsers();
 });
 </script>
